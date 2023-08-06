@@ -223,7 +223,7 @@ public:
     void savePositions() const
     {
         std::ofstream myfile;
-        myfile.open("positions.txt");
+        myfile.open("../data/positions.txt");
 
         for (int i{ 0 }; i < m_numSamples; ++i)
         {
@@ -235,9 +235,9 @@ public:
     void saveSamples() const
     {
         std::ofstream myfileSamples;
-        myfileSamples.open("samples.txt");
+        myfileSamples.open("../data/samples.txt");
         std::ofstream myfileProp;
-        myfileProp.open("proportionTunnelled.txt");
+        myfileProp.open("../data/proportionTunnelled.txt");
 
         for (int i{ 0 }; i< m_numSamples; ++i)
         {
@@ -513,7 +513,7 @@ void saveSystemConditions(const unsigned int numSamples, const unsigned int maxN
     const double workFunction, const double bias, const double energy)
 {
     std::ofstream myfile;
-    myfile.open("systemConditions.txt");
+    myfile.open("../data/systemConditions.txt");
 
     myfile << "numSamples:" << numSamples;
     myfile << "\nmaxNumElectrons:" << maxNumElectrons;
