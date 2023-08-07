@@ -18,30 +18,30 @@
     <ClCompile Include="STM uncertainty calculation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\MC simulation of electrons in a conductor\Random.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\MC simulation of electrons in a conductor\Timer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MathematicaConversions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MathematicaRootSolve.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Random.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\MC simulation of electrons in a conductor\Random.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\MC simulation of electrons in a conductor\Timer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MathematicaConversions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MathematicaRootSolve.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Random.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

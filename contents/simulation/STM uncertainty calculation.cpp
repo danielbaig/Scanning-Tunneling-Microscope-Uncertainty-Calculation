@@ -15,8 +15,8 @@
 
 #include <math.h> // exp
 #include <stdlib.h> // abs
-#include <boost/math/special_functions/airy.hpp> // airy functions
-#include <boost/math/constants/constants.hpp> // constants
+#include "../../boost/libs/math/include/boost/math/special_functions/airy.hpp" // airy functions
+#include "../../boost/libs/math/include/boost/math/constants/constants.hpp" // constants
 
 
 

@@ -82,8 +82,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Program Files\boost_1_80_0;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Program Files\boost_1_80_0\stage\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\boost\libs\math\include;C:\Program Files\boost_1_80_0;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\boost\libs;C:\Program Files\boost_1_80_0\stage\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -131,13 +131,14 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Program Files\boost_1_80_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\boost\libs\math\include;C:\Program Files\boost_1_80_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/Zm2000 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Program Files\boost_1_80_0\stage\lib;C:\Program Files\boost\boost_1_80_0\bin\$(PlatformTarget)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\boost\libs;C:\Program Files\boost_1_80_0\stage\lib;C:\Program Files\boost\boost_1_80_0\bin\$(PlatformTarget)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -161,17 +162,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\MC simulation of electrons in a conductor\Random.cpp" />
-    <ClCompile Include="..\MC simulation of electrons in a conductor\Timer.cpp" />
     <ClCompile Include="MathematicaConversions.cpp" />
     <ClCompile Include="MathematicaRootSolve.cpp" />
+    <ClCompile Include="Random.cpp" />
     <ClCompile Include="STM uncertainty calculation.cpp" />
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\MC simulation of electrons in a conductor\Random.h" />
-    <ClInclude Include="..\MC simulation of electrons in a conductor\Timer.h" />
     <ClInclude Include="MathematicaConversions.h" />
     <ClInclude Include="MathematicaRootSolve.h" />
+    <ClInclude Include="Random.h" />
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

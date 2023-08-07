@@ -1,0 +1,8 @@
+numSamples:10
+maxNumElectrons:10000
+numReadings:30
+lowerBound[m]:0
+upperBound[m]:2e-10
+workFunction[eV]:8.01088e-19
+bias[V]:4.80653e-20
+energy[eV]:4.00544e-19
