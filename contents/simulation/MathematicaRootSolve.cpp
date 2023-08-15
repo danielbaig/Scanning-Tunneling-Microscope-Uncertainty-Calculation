@@ -25,6 +25,20 @@ double mathematicaCalculatedFunction(const double w, const double r,
     const double energy, const double bias,
     const double workFunction, const double k1, const double k3, const double gamma)
 {
+    /*
+    Function generated from Mathematica.
+
+    Inputs:
+        - const double w: Width of the gap.
+        - const double r: Tunneling probability.
+        - const double mass: Electron mass.
+        - const double energy: Electron energy.
+        - const double bias: Linear bias applied.
+        - const double workFunction: Material workfunction.
+        - const double k1: Incoming wavenumber.
+        - const double k3: Outgoing wavenumber.
+        - const double gamma: Length ratio.
+    */
     static const double Pi{ PI };
 
     return (-2 * Pi) / k1 + ((Pi / k1 + (-1 + gamma) * (-1 + 1 / r) * w) *
@@ -12671,21 +12685,23 @@ double newton_raphson(double (*f)(const double, const double, const double,
 
     double prev_guess{ guess };
 
+    // No electrons detected.
     if (r == 0)
     {
         return 6e-10;
     }
 
-    for (int i{ 0 }; i < numIterations; ++i)
+    for (unsigned int i{ 0 }; i < numIterations; ++i)
     {
 
         prev_guess = guess;
         f0 = f(guess, r, mass, energy, bias, workFunction, k1, k3, gamma);
 
-
+        // Approximate Newton-Raphson.
         guess = guess - dx * f0
             / (f(guess + dx, r, mass, energy, bias, workFunction, k1, k3, gamma) - f0);
 
+        // Bound restrictions (should never actually reach this hopefully).
         if (guess < 1e-10)
         {
             guess = 1e-10;
@@ -12694,6 +12710,8 @@ double newton_raphson(double (*f)(const double, const double, const double,
         {
             guess = 1e-9;
         }
+
+        // Convergence.
         else if (abs(guess - prev_guess) < precision)
         {
             break;

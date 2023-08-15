@@ -6,6 +6,7 @@ void Timer::reset()
 	/*
 	Reset the timer.
 	*/
+
 	m_beg = clock_type::now();
 }
 
@@ -13,6 +14,9 @@ double Timer::elapsed() const
 {
 	/*
 	Determine the time elapsed.
+
+	Outputs:
+		- double elapsed: Time elapsed.
 	*/
 	return std::chrono::duration_cast<second_type>(clock_type::now() - m_beg).count();
 }

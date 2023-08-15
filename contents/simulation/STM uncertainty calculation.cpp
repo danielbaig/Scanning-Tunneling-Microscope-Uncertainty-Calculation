@@ -29,33 +29,20 @@ constexpr std::complex<double> I(0, 1.);
 
 
 
-
-std::vector<double> linspace(double start, double end, int numPoints)
-{
-    std::vector<double> arr(numPoints);
-
-    const double dx{ (end - start) / numPoints };
-    arr[0] = start;
-
-    for (int i{ 1 }; i < numPoints; ++i)
-    {
-        arr[i] = arr[i - 1] + dx;
-    }
-
-    if (abs(arr[numPoints] - end) < 1e-3)
-        return arr;
-    else
-    {
-        std::cout << "Error occured\n";
-        return arr;
-    }
-
-
-}
-
 template<typename T>
 T pythonModulo(T x, T M)
 {
+    /*
+    Modulo function for Python (floored) instead of C++'s (truncated).
+
+    Inputs:
+        - T x: Number to operate on.
+        - T M: Modulo.
+
+    Outputs:
+        - T r: remainder.
+    */
+
     T output{ fmod(x, M) };
 
     if (M > 0 && output < 0)
@@ -76,10 +63,7 @@ class STM
     /*
     Creates a system to model electrons tunneling in a Scanning Tunneling
     Microscope by using the wavefunction to generate a PDF and then using
-    this to determine the transmittance to estimate the height of the prob.
-    
-    Member variables:
-
+    this to determine the transmittance to estimate the height of the probe.
     */
 
 private:
@@ -144,7 +128,7 @@ public:
         */
 
         // Sets random positions to the samples.
-        for (int i{ 0 }; i < m_numSamples; ++i)
+        for (unsigned int i{ 0 }; i < m_numSamples; ++i)
         {
             m_samples[i].x = (upperBound - lowerBound)*Random::uniform() + lowerBound;
             m_samples[i].y = ((upperBound - lowerBound)*Random::uniform() + lowerBound)* sin(PI / 3);
@@ -166,7 +150,7 @@ public:
         Destructor for the class.
         Deletes dynamic arrays.
         */
-        for (int i{ 0 }; i < m_numSamples; ++i)
+        for (unsigned int i{ 0 }; i < m_numSamples; ++i)
         {
             delete[] m_samples[i].tunnelProb;
             m_samples[i].tunnelProb = nullptr;
@@ -184,11 +168,10 @@ public:
     {
         /*
         Samples all of the points and saves them.
-        
         */
 
 
-        for (int i{ 0 }; i < m_numSamples; ++i)
+        for (unsigned int i{ 0 }; i < m_numSamples; ++i)
         {
             
             if ((i + 1) % (m_numSamples / 5) == 0)
@@ -199,7 +182,7 @@ public:
             samplePoint(&(m_samples[i]));
 
                 
-            for (int j{ 0 }; j < m_numReadings; ++j)
+            for (unsigned int j{ 0 }; j < m_numReadings; ++j)
             {
                 
                 m_samples[i].estimatedTransmittance[j]
@@ -222,10 +205,14 @@ public:
 
     void savePositions() const
     {
+        /*
+        Saves the positions to a .txt file.
+        */
+
         std::ofstream myfile;
         myfile.open("../data/positions.txt");
 
-        for (int i{ 0 }; i < m_numSamples; ++i)
+        for (unsigned int i{ 0 }; i < m_numSamples; ++i)
         {
             myfile << m_samples[i].x << ',' << m_samples[i].y << '\n';
         }
@@ -234,14 +221,17 @@ public:
 
     void saveSamples() const
     {
+        /*
+        Saves the tunnelling proportions and estimated transmittance to .txt files.
+        */
         std::ofstream myfileSamples;
         myfileSamples.open("../data/samples.txt");
         std::ofstream myfileProp;
         myfileProp.open("../data/proportionTunnelled.txt");
 
-        for (int i{ 0 }; i< m_numSamples; ++i)
+        for (unsigned int i{ 0 }; i< m_numSamples; ++i)
         {
-            for (int j{ 0 }; j < m_numReadings; ++j)
+            for (unsigned int j{ 0 }; j < m_numReadings; ++j)
             {
                 myfileSamples << m_samples[i].estimatedTransmittance[j] << ',';
                 myfileProp << m_samples[i].tunnelProb[j] << ',';
@@ -385,7 +375,7 @@ public:
         // intended integer division
         unsigned int samplingPeriod{ m_maxNumElectrons / m_numReadings };
         
-        for (int i{ 0 }; i < m_maxNumElectrons; ++i)
+        for (unsigned int i{ 0 }; i < m_maxNumElectrons; ++i)
         {
             if (measureElectronPosition(maxProb) > m_actualWidth)
             {
@@ -411,13 +401,18 @@ public:
 
         Inputs:
             - double maxProb: The peak probability density.
+
+        Outputs:
+            - double trial: Accepted point.
         */
 
         const double lowerBound{ -PI/m_k1 };
         const double upperBound{ m_GAMMA * m_actualWidth };
         double trial{};
 
-        while (true)
+        static constexpr unsigned int maxTries{ static_cast<unsigned int>(1e+5) };
+        unsigned int i{ 0 };
+        while (i < maxTries)
         {
             trial = (upperBound - lowerBound) * Random::uniform() + lowerBound;
 
@@ -425,7 +420,11 @@ public:
             {
                 return trial;
             }
+            ++i;
         }
+
+        std::cout << "Max tries reached, probability density too low. There may be an underlying problem\n";
+        return trial;
 
     }
 
@@ -512,6 +511,20 @@ void saveSystemConditions(const unsigned int numSamples, const unsigned int maxN
     const unsigned int numReadings, const double lowerBound, const double upperBound,
     const double workFunction, const double bias, const double energy)
 {
+    /*
+    Saves the system conditions to a file.
+
+    Inputs:
+        - const unsigned int numSamples: Number of samples taken.
+        - const unsigned int maxNumElectrons: Maximum number of electrons per sample.
+        - const unsigned int numReadings: Number of readings taken.
+        - const double lowerBound: Lower bound of width set.
+        - const double upperBound: Upper bound of width set.
+        - const double workFunction: Work function of the metal.
+        - const double bias: Linear bias applied.
+        - const double energy: Energy of incoming electrons.
+    */
+
     std::ofstream myfile;
     myfile.open("../data/systemConditions.txt");
 
